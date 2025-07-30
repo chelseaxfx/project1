@@ -15,9 +15,6 @@ from .conv import Conv, DWConv
 from .transformer import MLP, DeformableTransformerDecoder, DeformableTransformerDecoderLayer
 from .utils import bias_init_with_prob, linear_init
 
-#from peft.tuners.lora import Linear as LoRALinear
-from ultralytics.nn.modules.lora import LoRAConv2d
-
 __all__ = "Detect", "Segment", "Pose", "Classify", "OBB", "RTDETRDecoder", "v10Detect"
 
 
@@ -53,7 +50,7 @@ class Detect(nn.Module):
                 nn.Sequential(
                     nn.Sequential(DWConv(x, x, 3), Conv(x, c3, 1)),
                     nn.Sequential(DWConv(c3, c3, 3), Conv(c3, c3, 1)),
-                    LoRAConv2d(c3, self.nc, 1),
+                    nn.Conv2d(c3, self.nc, 1),
                 )
                 for x in ch
             )
