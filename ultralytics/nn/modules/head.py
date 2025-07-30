@@ -16,7 +16,7 @@ from .transformer import MLP, DeformableTransformerDecoder, DeformableTransforme
 from .utils import bias_init_with_prob, linear_init
 
 #from peft.tuners.lora import Linear as LoRALinear
-from .lora import LoRAConv2d
+from ultralytics.nn.modules.lora import LoRAConv2d
 
 __all__ = "Detect", "Segment", "Pose", "Classify", "OBB", "RTDETRDecoder", "v10Detect"
 
