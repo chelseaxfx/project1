@@ -11,7 +11,7 @@ from torch.nn.init import constant_, xavier_uniform_
 from .conv import Conv
 from .utils import _get_clones, inverse_sigmoid, multi_scale_deformable_attn_pytorch
 
-from .lora import LoRALinear  # new lora.py
+from ultralytics.nn.modules.lora import LoRALinear  # new lora.py
 
 __all__ = (
     "TransformerEncoderLayer",
