@@ -53,7 +53,7 @@ class Detect(nn.Module):
                 nn.Sequential(
                     nn.Sequential(DWConv(x, x, 3), Conv(x, c3, 1)),
                     nn.Sequential(DWConv(c3, c3, 3), Conv(c3, c3, 1)),
-                    nn.LoRAConv2d(c3, self.nc, 1),
+                    LoRAConv2d(c3, self.nc, 1),
                 )
                 for x in ch
             )
