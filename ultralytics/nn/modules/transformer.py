@@ -11,8 +11,6 @@ from torch.nn.init import constant_, xavier_uniform_
 from .conv import Conv
 from .utils import _get_clones, inverse_sigmoid, multi_scale_deformable_attn_pytorch
 
-from ultralytics.nn.modules.lora import LoRALinear  # new lora.py
-
 __all__ = (
     "TransformerEncoderLayer",
     "TransformerLayer",
@@ -120,12 +118,12 @@ class AIFI(TransformerEncoderLayer):
 class TransformerLayer(nn.Module):
     """Transformer layer https://arxiv.org/abs/2010.11929 (LayerNorm layers removed for better performance)."""
 
-    def __init__(self, c, num_heads, lora_r=8):
+    def __init__(self, c, num_heads):
         """Initializes a self-attention mechanism using linear transformations and multi-head attention."""
         super().__init__()
-        self.q = LoRALinear(c, c, r=lora_r)
+        self.q = nn.Linear(c, c, bias=False)
         self.k = nn.Linear(c, c, bias=False)
-        self.v = LoRALinear(c, c, r=lora_r)
+        self.v = nn.Linear(c, c, bias=False)
         self.ma = nn.MultiheadAttention(embed_dim=c, num_heads=num_heads)
         self.fc1 = nn.Linear(c, c, bias=False)
         self.fc2 = nn.Linear(c, c, bias=False)
