@@ -14,3 +14,14 @@ class LoRALinear(nn.Module):
 
     def forward(self, x):
         return F.linear(x, self.weight) + F.linear(x, self.B @ self.A)
+
+class LoRAConv2d(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size, r=4, stride=1, padding=0):
+        super().__init__()
+        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding)
+        self.lora_A = nn.Conv2d(in_channels, r, 1, bias=False)
+        self.lora_B = nn.Conv2d(r, out_channels, 1, bias=False)
+        self.alpha = 1.0  # 可调缩放系数
+
+    def forward(self, x):
+        return self.conv(x) + self.alpha * self.lora_B(self.lora_A(x))
